@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 using ViewGenerator.Common;
 using ViewGenerator.Common.Models;
 
@@ -16,12 +17,10 @@ public class Generator : IViewGenerator, IDisposable
     public Generator(ViewEngineSettings settings)
     {
         Settings = settings;
-
         _connection = new SqlConnection(settings.ConnectionString);
-        _connection.Open();
 
         Validators.ValidateConfRootFolder(settings.ConfRootFolder);
-        Validators.ValidateIncludeAndSkipViews(settings.IncludeViews, settings.SkipViews);
+        Validators.ValidateIncludeAndSkipViews(settings.IncludeViews, settings.ExcludeViews);
     }
 
     public Task GenerateViews(CancellationToken cancellationToken)
@@ -40,7 +39,22 @@ public class Generator : IViewGenerator, IDisposable
         return entityTypes;
     }
 
-    public void Dispose() => _connection.Dispose();
+    void IDisposable.Dispose() => _connection.Dispose();
 
-    private void OnError(Exception exception) => ErrorOccurred?.Invoke(this, exception);
+    private void OnError(Exception exception)
+    {
+        if (Settings.ErrorAction is ErrorAction.Continue)
+        {
+            // Only execute the event handler if the ErrorAction is Continue otherwise, the exception will be propagated anyhow.
+            ErrorOccurred?.Invoke(this, exception);
+        }
+    }
+    
+    private async Task OpenConnection()
+    {
+        if (_connection.State is not ConnectionState.Open)
+        {
+            await _connection.OpenAsync().ConfigureAwait(false);
+        }
+    }
 }

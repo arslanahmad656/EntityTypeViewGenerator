@@ -7,5 +7,5 @@ public record ViewEngineSettings(
     ExistingViewAction ExistingViewAction,
     ErrorAction ErrorAction,
     string[] IncludeViews,
-    string[] SkipViews
+    string[] ExcludeViews
     );

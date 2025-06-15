@@ -22,20 +22,20 @@ public static class XmlHelper
     public static EntityType ParseEntityType(XElement entityTypeEl, ErrorHandler onError, bool abortOnError, CancellationToken cancellationToken)
     {
         var identifierValue = entityTypeEl.Attribute("Identifier")?.Value ?? throw new Exception(GetErrorLine(entityTypeEl, "Identifier"));
-        var displayNameValue = entityTypeEl.Attribute("DisplayName")?.Value;
+        var displayNameValue = entityTypeEl.Attribute("DisplayName_L1")?.Value;
         ConsolidationMode? consolidationMode = null;
 
         if (entityTypeEl.Attribute("ConsolidationMode")?.Value is string consolidationModeValue)
         {
             consolidationMode = Enum.Parse<ConsolidationMode>(consolidationModeValue);
-            if (consolidationMode is not ConsolidationMode.Default or ConsolidationMode.Merge)
+            if (consolidationMode is not (ConsolidationMode.Default or ConsolidationMode.Merge))
             {
-                throw new Exception($"Unsupported consolidation mode {consolidationModeValue} at {GeneralHelper.GetLineInfoRepresentation(entityTypeEl)}. Supported consolidation modes are {ConsolidationMode.Update} and {ConsolidationMode.Merge}");
+                throw new Exception($"Unsupported consolidation mode {consolidationModeValue} at {GeneralHelper.GetLineInfoRepresentation(entityTypeEl)}. Supported consolidation modes are {ConsolidationMode.Default} and {ConsolidationMode.Merge}");
             }
         }
 
         var properties = new Dictionary<string, EntityProperty>();
-        foreach (var propertyEl in entityTypeEl.Elements("Property"))
+        foreach (var propertyEl in entityTypeEl.GetElements("Property"))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -61,10 +61,22 @@ public static class XmlHelper
         return entityType;
     }
 
+    public static IEnumerable<XElement> GetDescendants(this XContainer element, string elementName)
+    {
+        XNamespace ns = "urn:schemas-usercube-com:configuration";
+        return element.Descendants(ns + elementName);
+    }
+
+    public static IEnumerable<XElement> GetElements(this XContainer element, string elementName)
+    {
+        XNamespace ns = "urn:schemas-usercube-com:configuration";
+        return element.Elements(ns + elementName);
+    }
+
     private static EntityProperty ParseEntityProperty(XElement element)
     {
         var identifierValue = element.Attribute("Identifier")?.Value ?? throw new Exception(GetErrorLine(element, "Identifier"));
-        var displayNameValue = element.Attribute("DisplayName")?.Value;
+        var displayNameValue = element.Attribute("DisplayName_L1")?.Value;
         var isKeyValue = element.Attribute("IsKey")?.Value;
         var targetColumnIndexValue = element.Attribute("TargetColumnIndex")?.Value;
         var typeValue = element.Attribute("Type")?.Value;

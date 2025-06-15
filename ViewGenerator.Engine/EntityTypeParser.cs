@@ -31,6 +31,7 @@ static class EntityTypeParser
         // Step 1:
         // Read all xml files from the conf folder and extract all EntityTypes as XElements. Also get the file names from them. File names will help for diagnostics.
         var allDictionaries = new List<Dictionary<string, ElementFileInfo>>();
+
         foreach (var file in Directory.EnumerateFiles(viewEngineSettings.ConfRootFolder, "*.xml", SearchOption.AllDirectories))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -38,9 +39,14 @@ static class EntityTypeParser
             try
             {
                 var xDocument = await XmlHelper.ReadXmlDocumentFromFile(file, cancellationToken).ConfigureAwait(false);
-                var entityTypeIdenfiersToElements = GetEntityTypeElements(xDocument, viewEngineSettings.IncludeViews, viewEngineSettings.SkipViews, onError, viewEngineSettings.ErrorAction is ErrorAction.Abort, cancellationToken)
+                var entityTypeIdenfiersToElements = GetEntityTypeElements(xDocument, viewEngineSettings.IncludeViews, viewEngineSettings.ExcludeViews, onError, viewEngineSettings.ErrorAction is ErrorAction.Abort, cancellationToken)
                     .ToDictionary(x => x.Key, x => new ElementFileInfo(x.Value, file));
-                allDictionaries.Add(entityTypeIdenfiersToElements);
+
+                if (entityTypeIdenfiersToElements.Count > 0)
+                {
+                    // It is possible that a file does not have any EntityType elements.
+                    allDictionaries.Add(entityTypeIdenfiersToElements);
+                }
             }
             catch (OperationCanceledException)
             {
@@ -149,7 +155,7 @@ static class EntityTypeParser
     private  static Dictionary<string, List<XElement>> GetEntityTypeElements(XDocument xDocument, string[] includeViews, string[] skipViews, ErrorHandler onError, bool abortOnError, CancellationToken cancellationToken)
     {
         var resultEntityTypeElements = new Dictionary<string, List<XElement>>();
-        var entityTypeElementsInDocument = xDocument.Descendants(Constants.EntityTypeTagName);
+        var entityTypeElementsInDocument = xDocument.GetDescendants(Constants.EntityTypeTagName);
 
         foreach (var entityTypeElement in entityTypeElementsInDocument)
         {
@@ -172,6 +178,7 @@ static class EntityTypeParser
                 if (!resultEntityTypeElements.TryGetValue(entityTypeIdentifier, out var fetchedEntityTypeElements))
                 {
                     fetchedEntityTypeElements = [];
+                    resultEntityTypeElements.Add(entityTypeIdentifier, fetchedEntityTypeElements);
                 }
 
                 fetchedEntityTypeElements.Add(entityTypeElement);
