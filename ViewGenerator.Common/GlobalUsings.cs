@@ -1,0 +1,1 @@
+﻿global using ErrorHandler = System.Action<System.Exception>;
