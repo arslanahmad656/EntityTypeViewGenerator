@@ -124,4 +124,20 @@ public partial class MainWindow : Window
             this.HandleException(ex);
         }
     }
+
+    private async void Btn_ViewCompleteQuery_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            viewGenerator.ValidateViewGenerator();
+
+            var query = await viewGenerator.GetSqlQueryForViews(reloadEntityTypes, cancellationTokenSource.Token);
+
+            this.AppendMessageToResultBox(query, true);
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
 }
