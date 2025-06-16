@@ -16,6 +16,7 @@ public class Generator : IViewGenerator, IDisposable
     private Dictionary<string, EntityType> entityTypePerEntityTypeIdentifier = new();
 
     public event EventHandler<Exception>? ErrorOccurred;
+    public event EventHandler<EntityType>? EntityTypeIgnored;
 
     public ViewEngineSettings Settings { get; }
 
@@ -50,6 +51,7 @@ public class Generator : IViewGenerator, IDisposable
                     {
                         if (Settings.ExistingViewAction is ExistingViewAction.IgnoreView)
                         {
+                            EntityTypeIgnored?.Invoke(this, entityType);
                             continue;
                         }
 
