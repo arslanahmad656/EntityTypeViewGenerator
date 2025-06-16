@@ -42,8 +42,8 @@
             <CheckBox Name="Chk_ForceReloadEntityTypes" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5 0 0 0" Checked="Chk_ForceReloadEntityTypes_Changed" Unchecked="Chk_ForceReloadEntityTypes_Changed">Force Reload Entity Types</CheckBox>
         </WrapPanel>
 
-        <TextBox Name="Txt_ResultBox" IsReadOnly="true" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="3 0 0 0">This is the result box</TextBox>
-        <TextBox Name="Txt_LogBox" IsReadOnly="true" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="0 0 3 0">This is the log box</TextBox>
+        <TextBox Name="Txt_ResultBox" IsReadOnly="true" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="3 0 0 0"></TextBox>
+        <TextBox Name="Txt_LogBox" IsReadOnly="true" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="0 0 3 0"></TextBox>
 
         <Label Name="Lbl_Status" Grid.Row="4" Grid.ColumnSpan="4"></Label>
     </Grid>
