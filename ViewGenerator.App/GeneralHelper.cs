@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using ViewGenerator.Common.Models;
 
 namespace ViewGenerator.App;
@@ -37,6 +38,9 @@ static class GeneralHelper
 
         return sb.ToString();
     }
+
+    public static async Task<string> GetSettingsFileContents()
+        => await File.ReadAllTextAsync("appsettings.json");
 
     private static string GetEntityPropertyDetailsString(this EntityProperty entityProperty)
     {

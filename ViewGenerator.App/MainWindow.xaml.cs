@@ -140,4 +140,18 @@ public partial class MainWindow : Window
             this.HandleException(ex);
         }
     }
+
+    private async void Btn_ViewAppSettings_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var settings = await GeneralHelper.GetSettingsFileContents();
+            
+            this.AppendMessageToResultBox(settings, true);
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
 }
