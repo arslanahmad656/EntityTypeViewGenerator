@@ -6,9 +6,13 @@ public interface IViewGenerator
 {
     event EventHandler<Exception>? ErrorOccurred;
 
-    Task<string> GetSqlQueryForViews(CancellationToken cancellationToken);
+    Task<string> GetSqlQueryForViews(bool realoadEntityTypes, CancellationToken cancellationToken);
     
+    Task<string> GetSqlQueryForView(string entityTypeIdentifier, bool realoadEntityTypes, CancellationToken cancellationToken);
+
     Task GenerateViews(CancellationToken cancellationToken);
 
-    Task<List<EntityType>> GetEntityTypes(CancellationToken cancellationToken);
+    Task<List<EntityType>> GetEntityTypes(bool reloadEntityTypes, CancellationToken cancellationToken);
+
+    Task<EntityType> GetEntityType(string entityTypeIdentifier, bool reloadEntityTypes, CancellationToken cancellationToken);
 }

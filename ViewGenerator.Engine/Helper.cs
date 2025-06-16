@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text;
 using ViewGenerator.Common;
 using ViewGenerator.Common.Models;
 
@@ -40,5 +41,58 @@ public static class Helper
         };
 
         return finalEntityType;
+    }
+
+    public static string GetViewQueryForEntityType(EntityType entityType)
+    {
+        var sb = new StringBuilder();
+
+        sb.AppendLine($"""
+            CREATE VIEW [zz_{entityType.Identifier}] AS
+            SELECT
+            """);
+
+
+        var projectionsList = entityType.Properties.Values
+            .Select(GetProjectionForEntityProperty)
+            .Where(p => !string.IsNullOrEmpty(p));
+
+        var projections = string.Join($",{Environment.NewLine}", projectionsList.Select(p => $"   {p}"));
+
+        sb.AppendLine(projections);
+
+        sb.AppendLine($"FROM UR_Resources");
+        
+        var filter = GetFilterForViewCreation(entityType);
+        sb.AppendLine($"""
+            WHERE
+               {filter}
+            """);
+
+        return sb.ToString();
+    }
+
+    public static string GetSqlQueryToDropView(string entityTypeIdentifier) => $"DROP VIEW [zz_{entityTypeIdentifier}];";
+
+    public static string GetSqlQueryToCheckTheViewExists(string entityTypeIdentifier) => $"SELECT OBJECT_ID(N'zz_{entityTypeIdentifier}', N'V') ";
+
+    private static string GetFilterForViewCreation(EntityType entityType)
+        => $"""
+        [Type] = (SELECT Id FROM UM_EntityTypes WHERE Identifier = '{entityType.Identifier}')
+           AND ValidTo = CONVERT(DATETIME2(2),'9999-12-31 23:59:59.999',121)
+        """;
+
+    private static string GetProjectionForEntityProperty(EntityProperty entityProperty)
+    {
+        if (entityProperty.TargetColumnIndex is null)
+        {
+            return string.Empty;
+        }
+
+        var columnPrefix = entityProperty.Type == EntityPropertyType.ForeignKey ? "I" : "C";
+        var base32ColumnColumnIndex = entityProperty.Base32ColumnIndex;
+
+        var projectction = $"{columnPrefix}{base32ColumnColumnIndex} AS [{entityProperty.Identifier}]";
+        return projectction;
     }
 }
