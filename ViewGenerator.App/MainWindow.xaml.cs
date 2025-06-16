@@ -53,10 +53,7 @@ public partial class MainWindow : Window
 
         try
         {
-            if (viewGenerator is null)
-            {
-                throw new Exception($"View generator is null at this point.");
-            }
+            viewGenerator.ValidateViewGenerator();
 
             var entityTypes = await viewGenerator.GetEntityTypes(reloadEntityTypes, cancellationTokenSource.Token);
             Cmb_EntityTypes.AddEntityTypesToComboBox(entityTypes);
@@ -82,7 +79,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private void _viewGenerator_ErrorOccurred(object? sender, Exception e) => Dispatcher.Invoke(() => this.AppendMessageToLogBox(e.GetFullExceptionMessage()));
+    private void _viewGenerator_ErrorOccurred(object? sender, Exception e) => Dispatcher.Invoke(() => this.AppendMessageToLogBox(e.GetFullExceptionMessage(), false));
 
     private void Chk_ForceReloadEntityTypes_Changed(object sender, RoutedEventArgs e)
     {
@@ -90,6 +87,23 @@ public partial class MainWindow : Window
         {
             var checkBox = (CheckBox)sender;
             reloadEntityTypes = checkBox.IsChecked ?? false;
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
+
+    private async void Btn_ViewEntityTypeQuery_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            viewGenerator.ValidateViewGenerator();
+
+            var entityType = Cmb_EntityTypes.GetSelectedEntityTypeFromComboBox();
+            var query = await viewGenerator.GetSqlQueryForView(entityType.Identifier, reloadEntityTypes, cancellationTokenSource.Token);
+
+            this.AppendMessageToResultBox(query, true);
         }
         catch (Exception ex)
         {

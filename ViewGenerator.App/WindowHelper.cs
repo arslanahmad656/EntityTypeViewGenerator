@@ -42,7 +42,11 @@ static class WindowHelper
         MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
-    public static void AppendMessageToLogBox(this MainWindow window, string message) => window.Txt_LogBox.Text += Environment.NewLine + message;
+    public static void AppendMessageToLogBox(this MainWindow window, string message, bool clear) 
+        => window.Txt_LogBox.Text = clear ? message : window.Txt_LogBox.Text + Environment.NewLine + message;
+
+    public static void AppendMessageToResultBox(this MainWindow window, string message, bool clear) 
+        => window.Txt_ResultBox.Text = clear ? message : window.Txt_ResultBox.Text + Environment.NewLine + message;
 
     #endregion
 
@@ -60,6 +64,22 @@ static class WindowHelper
 
         comboBox.Items.Insert(0, new EntityType("Select an entity type", null, null, new Dictionary<string, EntityProperty>(0)));
         comboBox.SelectedIndex = 0;
+    }
+
+    public static EntityType GetSelectedEntityTypeFromComboBox(this ComboBox comboBox)
+    {
+        if (comboBox.SelectedItem is null)
+        {
+            throw new Exception("No entity type selected.");
+        }
+
+        if (comboBox.SelectedIndex is 0)
+        {
+            throw new Exception("Not a valid entity type selected.");
+        }
+
+        var entityType = (EntityType)comboBox.SelectedItem;
+        return entityType;
     }
 
 #endregion  
