@@ -72,8 +72,28 @@ public partial class MainWindow : Window
 
     private void Wnd_Main_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        (viewGenerator as IDisposable)?.Dispose();
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
     }
 
     private void _viewGenerator_ErrorOccurred(object? sender, Exception e) => Dispatcher.Invoke(() => this.AppendMessageToLogBox(e.GetFullExceptionMessage()));
+
+    private void Chk_ForceReloadEntityTypes_Changed(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var checkBox = (CheckBox)sender;
+            reloadEntityTypes = checkBox.IsChecked ?? false;
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
 }
