@@ -1,13 +1,5 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ViewGenerator.Common.Models;
 using ViewGenerator.Engine;
 
@@ -22,6 +14,7 @@ public partial class MainWindow : Window
     private Generator? viewGenerator;
     private bool reloadEntityTypes;
     private bool entityTypesLoadedFirstTime = false;
+    private string? settingsContents;
     private CancellationTokenSource cancellationTokenSource = new();
 
     public MainWindow()
@@ -36,6 +29,9 @@ public partial class MainWindow : Window
             viewEngineSettings = this.GetViewEngineSettings();
             viewGenerator = new Generator(viewEngineSettings);
             viewGenerator.ErrorOccurred += _viewGenerator_ErrorOccurred;
+            viewGenerator.ViewGenerated += _viewGenerator_ViewGenerated;
+            viewGenerator.EntityTypeIgnored += _viewGenerator_EntityTypeIgnored;
+            viewGenerator.ViewDropped += ViewGenerator_ViewDropped;
             reloadEntityTypes = Chk_ForceReloadEntityTypes.IsChecked ?? false;
         }
         catch (Exception ex)
@@ -71,7 +67,7 @@ public partial class MainWindow : Window
     {
         try
         {
-
+            (viewGenerator as IDisposable)?.Dispose();
         }
         catch (Exception ex)
         {
@@ -80,6 +76,15 @@ public partial class MainWindow : Window
     }
 
     private void _viewGenerator_ErrorOccurred(object? sender, Exception e) => Dispatcher.Invoke(() => this.AppendMessageToLogBox(e.GetFullExceptionMessage(), false));
+
+    private void ViewGenerator_ViewDropped(object? sender, EntityType e)
+        => Dispatcher.Invoke(() => this.AppendMessageToLogBox($"There was an existing view for the entity type {e.Identifier}. The view has been dropped. You can change this setting in the setings file.", false));
+
+    private void _viewGenerator_EntityTypeIgnored(object? sender, EntityType e)
+        => Dispatcher.Invoke(() => this.AppendMessageToLogBox($"There was an existing view for the entity type {e.Identifier}. The view was ignored. You can change this setting in the setings file.", false));
+
+    private void _viewGenerator_ViewGenerated(object? sender, EntityType e)
+        => Dispatcher.Invoke(() => this.AppendMessageToLogBox($"View has been generated for the entity type {e.Identifier}.", false));
 
     private void Chk_ForceReloadEntityTypes_Changed(object sender, RoutedEventArgs e)
     {
@@ -145,9 +150,22 @@ public partial class MainWindow : Window
     {
         try
         {
-            var settings = await GeneralHelper.GetSettingsFileContents();
-            
+            var settings = settingsContents ??= await GeneralHelper.GetSettingsFileContents();
+
             this.AppendMessageToResultBox(settings, true);
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
+
+    private async void Btn_GenerateViews_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            viewGenerator.ValidateViewGenerator();
+            await viewGenerator.GenerateViews(cancellationTokenSource.Token);
         }
         catch (Exception ex)
         {

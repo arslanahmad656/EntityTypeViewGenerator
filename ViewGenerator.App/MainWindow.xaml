@@ -34,7 +34,7 @@
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="4">
             <Button Name="Btn_ViewCompleteQuery" Click="Btn_ViewCompleteQuery_Click">View Complete Query</Button>
             <Button Name="Btn_ViewAppSettings" Click="Btn_ViewAppSettings_Click">View App Settings</Button>
-            <Button Name="Btn_GenerateViews">Generate Views</Button>
+            <Button Name="Btn_GenerateViews" Click="Btn_GenerateViews_Click">Generate Views</Button>
             <CheckBox Name="Chk_ForceReloadEntityTypes" Checked="Chk_ForceReloadEntityTypes_Changed" Unchecked="Chk_ForceReloadEntityTypes_Changed">Force Reload Entity Types</CheckBox>
         </WrapPanel>
 

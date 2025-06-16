@@ -17,6 +17,8 @@ public class Generator : IViewGenerator, IDisposable
 
     public event EventHandler<Exception>? ErrorOccurred;
     public event EventHandler<EntityType>? EntityTypeIgnored;
+    public event EventHandler<EntityType>? ViewGenerated;
+    public event EventHandler<EntityType>? ViewDropped;
 
     public ViewEngineSettings Settings { get; }
 
@@ -66,12 +68,16 @@ public class Generator : IViewGenerator, IDisposable
                             var queryToDropView = Helper.GetSqlQueryToDropView(entityType.Identifier);
                             var dropViewCommand = new SqlCommand(queryToDropView, _connection, transaction);
                             await dropViewCommand.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+
+                            ViewDropped?.Invoke(this, entityType);
                         }
                     }
 
                     var queryToCreateView = await GetSqlQueryForView(entityType.Identifier, false, cancellationToken).ConfigureAwait(false);
                     using var createViewCommand = new SqlCommand(queryToCreateView, _connection, transaction);
                     await createViewCommand.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+                    
+                    ViewGenerated?.Invoke(this, entityType);
                 }
                 catch (Exception ex)
                 {

@@ -6,6 +6,8 @@ public interface IViewGenerator
 {
     event EventHandler<Exception>? ErrorOccurred;
     event EventHandler<EntityType>? EntityTypeIgnored;
+    event EventHandler<EntityType>? ViewGenerated;
+    event EventHandler<EntityType>? ViewDropped;
 
     Task<string> GetSqlQueryForViews(bool realoadEntityTypes, CancellationToken cancellationToken);
     
