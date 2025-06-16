@@ -110,4 +110,18 @@ public partial class MainWindow : Window
             this.HandleException(ex);
         }
     }
+
+    private void Btn_ViewDetails_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var entityType = Cmb_EntityTypes.GetSelectedEntityTypeFromComboBox();
+            var details = entityType.GetEntityTypeDetailsString();
+            this.AppendMessageToResultBox(details, true);
+        }
+        catch (Exception ex)
+        {
+            this.HandleException(ex);
+        }
+    }
 }

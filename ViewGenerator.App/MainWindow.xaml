@@ -28,7 +28,7 @@
             <ComboBox Name="Cmb_EntityTypes" />
             <Button Name="Btn_LoadEntityTypes" Click="Btn_LoadEntityTypes_Click">Load Entity Types</Button>
             <Button Name="Btn_ViewEntityTypeQuery" Click="Btn_ViewEntityTypeQuery_Click">View EntityType Query</Button>
-            <Button Name="Btn_ViewDetails">View Entity Type Details</Button>
+            <Button Name="Btn_ViewDetails" Click="Btn_ViewDetails_Click">View Entity Type Details</Button>
         </WrapPanel>
 
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="4">
