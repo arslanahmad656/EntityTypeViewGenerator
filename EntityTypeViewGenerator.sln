@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewGenerator.Engine", "Vie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewGenerator.Test", "ViewGenerator.Test\ViewGenerator.Test.csproj", "{A5F40F16-8845-44AA-A6DB-58597B7A4169}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewGenerator.App", "ViewGenerator.App\ViewGenerator.App.csproj", "{6DC64E8F-BD32-4633-8287-51C61D05E721}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A5F40F16-8845-44AA-A6DB-58597B7A4169}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F40F16-8845-44AA-A6DB-58597B7A4169}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F40F16-8845-44AA-A6DB-58597B7A4169}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC64E8F-BD32-4633-8287-51C61D05E721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC64E8F-BD32-4633-8287-51C61D05E721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC64E8F-BD32-4633-8287-51C61D05E721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC64E8F-BD32-4633-8287-51C61D05E721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
