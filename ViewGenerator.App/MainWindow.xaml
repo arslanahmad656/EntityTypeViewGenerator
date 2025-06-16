@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ViewGenerator.App"
         mc:Ignorable="d"
-        Title="Entity Types Views Generator" Height="450" Width="800">
+        Title="Entity Types Views Generator" Height="650" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.25*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" >Entity Types Views Generator</TextBlock>
+
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="4">
+            <ComboBox Name="Cmb_EntityTypes" />
+            <Button Name="Btn_ViewEntityTypeQuery">View EntityType Query</Button>
+            <Button Name="Btn_ViewDetails">View Entity Type Details</Button>
+        </WrapPanel>
+
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="4">
+            <Button Name="Btn_ViewCompleteQuery">View Complete Query</Button>
+            <Button Name="Btn_ViewAppSettings">View App Settings</Button>
+            <Button Name="Btn_GenerateViews">Generate Views</Button>
+            <CheckBox Name="Chk_ForceReloadEntityTypes">Force Reload Entity Types</CheckBox>
+        </WrapPanel>
+
+        <TextBox Name="Txt_ResultBox" IsReadOnly="true" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">This is the result box</TextBox>
+        <TextBox Name="Txt_LogBox" IsReadOnly="true" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">This is the log box</TextBox>
+
+        <Label Name="Lbl_Status" Grid.Row="4" Grid.ColumnSpan="4">Status Label</Label>
     </Grid>
 </Window>
