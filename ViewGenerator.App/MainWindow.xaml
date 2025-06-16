@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:ViewGenerator.App"
         mc:Ignorable="d"
         Name="Wnd_Main"
-        Title="Entity Types Views Generator" Height="650" Width="800" Loaded="Wnd_Main_Loaded" Closing="Wnd_Main_Closing">
+        Title="Entity Types Views Generator" 
+        Height="650" Width="800" 
+        MinHeight="650" MinWidth="800"
+        Loaded="Wnd_Main_Loaded" 
+        Closing="Wnd_Main_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>
@@ -22,25 +26,25 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" >Entity Types Views Generator</TextBlock>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center">Entity Types Views Generator</TextBlock>
 
-        <WrapPanel Grid.Row="1" Grid.ColumnSpan="4">
-            <ComboBox Name="Cmb_EntityTypes" />
-            <Button Name="Btn_LoadEntityTypes" Click="Btn_LoadEntityTypes_Click">Load Entity Types</Button>
-            <Button Name="Btn_ViewEntityTypeQuery" Click="Btn_ViewEntityTypeQuery_Click">View EntityType Query</Button>
-            <Button Name="Btn_ViewDetails" Click="Btn_ViewDetails_Click">View Entity Type Details</Button>
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3 0 0 0" >
+            <ComboBox Name="Cmb_EntityTypes" Width="400" Height="30" VerticalContentAlignment="Center" />
+            <Button Name="Btn_LoadEntityTypes" Click="Btn_LoadEntityTypes_Click" Margin="5 0 0 0">Load Entity Types</Button>
+            <Button Name="Btn_ViewEntityTypeQuery" Click="Btn_ViewEntityTypeQuery_Click" Margin="5 0 0 0">View EntityType Query</Button>
+            <Button Name="Btn_ViewDetails" Click="Btn_ViewDetails_Click" Margin="5 0 0 0">View Entity Type Details</Button>
         </WrapPanel>
 
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="4">
-            <Button Name="Btn_ViewCompleteQuery" Click="Btn_ViewCompleteQuery_Click">View Complete Query</Button>
-            <Button Name="Btn_ViewAppSettings" Click="Btn_ViewAppSettings_Click">View App Settings</Button>
-            <Button Name="Btn_GenerateViews" Click="Btn_GenerateViews_Click">Generate Views</Button>
-            <CheckBox Name="Chk_ForceReloadEntityTypes" Checked="Chk_ForceReloadEntityTypes_Changed" Unchecked="Chk_ForceReloadEntityTypes_Changed">Force Reload Entity Types</CheckBox>
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3 0 0 0">
+            <Button Name="Btn_ViewCompleteQuery" Click="Btn_ViewCompleteQuery_Click" Height="30">View Complete Query</Button>
+            <Button Name="Btn_ViewAppSettings" Click="Btn_ViewAppSettings_Click" Margin="5 0 0 0">View App Settings</Button>
+            <Button Name="Btn_GenerateViews" Click="Btn_GenerateViews_Click" Margin="5 0 0 0">Generate Views</Button>
+            <CheckBox Name="Chk_ForceReloadEntityTypes" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5 0 0 0" Checked="Chk_ForceReloadEntityTypes_Changed" Unchecked="Chk_ForceReloadEntityTypes_Changed">Force Reload Entity Types</CheckBox>
         </WrapPanel>
 
-        <TextBox Name="Txt_ResultBox" IsReadOnly="true" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">This is the result box</TextBox>
-        <TextBox Name="Txt_LogBox" IsReadOnly="true" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">This is the log box</TextBox>
+        <TextBox Name="Txt_ResultBox" IsReadOnly="true" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="3 0 0 0">This is the result box</TextBox>
+        <TextBox Name="Txt_LogBox" IsReadOnly="true" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" FontFamily="Cascadia Mono" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Margin="0 0 3 0">This is the log box</TextBox>
 
-        <Label Name="Lbl_Status" Grid.Row="4" Grid.ColumnSpan="4">Status Label</Label>
+        <Label Name="Lbl_Status" Grid.Row="4" Grid.ColumnSpan="4"></Label>
     </Grid>
 </Window>
