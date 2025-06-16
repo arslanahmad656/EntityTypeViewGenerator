@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ViewGenerator.App"
         mc:Ignorable="d"
-        Title="Entity Types Views Generator" Height="650" Width="800">
+        Name="Wnd_Main"
+        Title="Entity Types Views Generator" Height="650" Width="800" Loaded="Wnd_Main_Loaded" Closing="Wnd_Main_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.25*"/>
@@ -25,6 +26,7 @@
 
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="4">
             <ComboBox Name="Cmb_EntityTypes" />
+            <Button Name="Btn_LoadEntityTypes" Click="Btn_LoadEntityTypes_Click">Load Entity Types</Button>
             <Button Name="Btn_ViewEntityTypeQuery">View EntityType Query</Button>
             <Button Name="Btn_ViewDetails">View Entity Type Details</Button>
         </WrapPanel>
