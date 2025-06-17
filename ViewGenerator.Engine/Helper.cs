@@ -43,7 +43,7 @@ public static class Helper
         return finalEntityType;
     }
 
-    public static string GetViewQueryForEntityType(EntityType entityType)
+    public static string GetViewQueryForEntityType(EntityType entityType, bool includeIdColumn)
     {
         var sb = new StringBuilder();
 
@@ -52,10 +52,11 @@ public static class Helper
             SELECT
             """);
 
+        var idColumn = includeIdColumn ? "Id AS [Id]" : string.Empty;
 
-        var projectionsList = entityType.Properties.Values
+        var projectionsList = new[] { idColumn }.Concat(entityType.Properties.Values
             .Select(GetProjectionForEntityProperty)
-            .Where(p => !string.IsNullOrEmpty(p));
+            .Where(p => !string.IsNullOrEmpty(p)));
 
         var projections = string.Join($",{Environment.NewLine}", projectionsList.Select(p => $"   {p}"));
 

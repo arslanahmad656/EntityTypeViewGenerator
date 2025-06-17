@@ -110,7 +110,7 @@ public class Generator : IViewGenerator, IDisposable
         await GetEntityTypes(reloadEntityTypes, cancellationToken).ConfigureAwait(false);   // to load into cache
         var entityType = allEntityTypes![entityTypeIdentifier];
 
-        var entityTypeViewQuery = Helper.GetViewQueryForEntityType(entityType);
+        var entityTypeViewQuery = Helper.GetViewQueryForEntityType(entityType, Settings.IncludeIdColumns);
         queriesPerEntityTypeIdentifier[entityTypeIdentifier] = entityTypeViewQuery;
 
         return entityTypeViewQuery;
@@ -131,7 +131,7 @@ public class Generator : IViewGenerator, IDisposable
             queryBuilder.AppendLine();
             queryBuilder.AppendLine();
 
-            var entityTypeViewQuery = Helper.GetViewQueryForEntityType(entityType);
+            var entityTypeViewQuery = Helper.GetViewQueryForEntityType(entityType, Settings.IncludeIdColumns);
             queryBuilder.AppendLine(entityTypeViewQuery);
         }
 

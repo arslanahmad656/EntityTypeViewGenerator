@@ -10,6 +10,7 @@ try
         ConfRootFolder: @"C:\UsercubeDemo\Conf.388225Cx",
         ConnectionString: "data source=DATASERVER;Database=388225Cx1;Integrated Security=SSPI;Min Pool Size=10;MultipleActiveResultSets=True;encrypt=false",
         IncludeForeignKeys: true,
+        IncludeIdColumns: true,
         ExistingViewAction: ExistingViewAction.RecreateView,
         ErrorAction: ErrorAction.Continue,
         IncludeViews: [],

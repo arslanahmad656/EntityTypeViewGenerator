@@ -24,6 +24,7 @@ static class WindowHelper
             section["ConfRootFolder"]!,
             section["ConnectionString"]!,
             bool.Parse(section["IncludeForeignKeys"]!),
+            bool.Parse(section["IncludeIdColumns"]!),
             Enum.Parse<ExistingViewAction>(section["ExistingViewAction"]!),
             Enum.Parse<ErrorAction>(section["ErrorAction"]!),
             section.GetSection("IncludeViews").Get<string[]>() ?? [],
